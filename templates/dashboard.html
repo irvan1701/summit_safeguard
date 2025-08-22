@@ -63,24 +63,40 @@
                     <div id="map"></div>
                 </div>
 
-                <div class="card data-card">
-                    <h2>Data Real-time</h2>
-                    <div id="data-container">
-                        <div class="data-item">
-                            <span class="label"><i class="fas fa-satellite-dish"></i> Status:</span>
+                <div class="data-grid">
+                    <div class="info-card" id="status-card">
+                        <div class="card-icon"><i class="fas fa-satellite-dish"></i></div>
+                        <div class="card-content">
+                            <span class="label">Status</span>
                             <span id="status" class="value">Mencari data...</span>
                         </div>
-                        <div class="data-item">
-                            <span class="label"><i class="fas fa-thermometer-half"></i> Suhu:</span>
+                    </div>
+                    <div class="info-card" id="suhu-card">
+                        <div class="card-icon"><i class="fas fa-thermometer-half"></i></div>
+                        <div class="card-content">
+                            <span class="label">Suhu</span>
                             <span id="suhu" class="value">--</span>
                         </div>
-                        <div class="data-item">
-                            <span class="label"><i class="fas fa-tint"></i> Kelembaban:</span>
+                    </div>
+                    <div class="info-card" id="kelembaban-card">
+                        <div class="card-icon"><i class="fas fa-tint"></i></div>
+                        <div class="card-content">
+                            <span class="label">Kelembaban</span>
                             <span id="kelembaban" class="value">--</span>
                         </div>
-                        <div class="data-item">
-                            <span class="label"><i class="far fa-clock"></i> Waktu:</span>
+                    </div>
+                    <div class="info-card" id="waktu-card">
+                        <div class="card-icon"><i class="far fa-clock"></i></div>
+                        <div class="card-content">
+                            <span class="label">Waktu</span>
                             <span id="waktu" class="value">--</span>
+                        </div>
+                    </div>
+                    <div class="info-card" id="sos-card">
+                        <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
+                        <div class="card-content">
+                            <span class="label">SOS</span>
+                            <span id="sos" class="value">--</span>
                         </div>
                     </div>
                 </div>
@@ -95,16 +111,19 @@
 
         var markers = {};
         var pendakiId = "{{ selected_pendaki }}";
+        var polyline = L.polyline([], {color: 'red'}).addTo(map);
+        var latlngs = [];
 
         function updateDashboard() {
             fetch('/api/data/' + pendakiId)
                 .then(response => response.json())
                 .then(data => {
-                    const dataContainer = document.getElementById('data-container');
                     const statusEl = document.getElementById('status');
                     const suhuEl = document.getElementById('suhu');
                     const kelembabanEl = document.getElementById('kelembaban');
                     const waktuEl = document.getElementById('waktu');
+                    const sosEl = document.getElementById('sos');
+                    const sosCard = document.getElementById('sos-card');
 
                     if (data.length > 0) {
                         const latestData = data[0];
@@ -114,13 +133,27 @@
                         const date = new Date(latestData.timestamp);
                         waktuEl.textContent = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
 
-                        if (markers[latestData.id_pendaki]) {
-                            markers[latestData.id_pendaki].setLatLng([latestData.latitude, latestData.longitude]);
+                        if (latestData.sos == 1) {
+                            sosEl.textContent = "AKTIF";
+                            sosCard.classList.add('blinking');
                         } else {
-                            var newMarker = L.marker([latestData.latitude, latestData.longitude]).addTo(map)
+                            sosEl.textContent = "NON-AKTIF";
+                            sosCard.classList.remove('blinking');
+                        }
+
+                        var latlng = [latestData.latitude, latestData.longitude];
+                        latlngs.push(latlng);
+                        polyline.setLatLngs(latlngs);
+
+                        if (markers[latestData.id_pendaki]) {
+                            markers[latestData.id_pendaki].setLatLng(latlng);
+                        } else {
+                            var newMarker = L.marker(latlng).addTo(map)
                                 .bindPopup(`<b>${latestData.id_pendaki}</b><br>Suhu: ${latestData.suhu}°C<br>Kelembaban: ${latestData.kelembaban}%`);
                             markers[latestData.id_pendaki] = newMarker;
                         }
+
+                        map.fitBounds(polyline.getBounds());
                         
                     } else {
                         statusEl.textContent = "Menunggu data...";
