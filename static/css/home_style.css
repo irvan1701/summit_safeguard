@@ -1,0 +1,119 @@
+/* static/css/home_style.css */
+
+body {
+  font-family: "Poppins", sans-serif;
+  background: linear-gradient(to right, #6a11cb, #2575fc);
+  margin: 0;
+  padding: 0;
+  color: #fff;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+  align-items: center;
+}
+
+.header {
+  text-align: center;
+  padding: 50px 20px;
+}
+
+.logo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+  font-size: 2.5em;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+
+.logo i {
+  font-size: 1.2em;
+}
+
+.header h1 {
+  margin: 0;
+}
+
+.header p {
+  font-size: 1.2em;
+  opacity: 0.9;
+}
+
+.container {
+  flex-grow: 1;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+}
+
+.card-list {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 30px;
+  width: 100%;
+  max-width: 1200px;
+}
+
+.card-link {
+  text-decoration: none;
+  color: inherit;
+  display: block;
+  width: 100%;
+  max-width: 320px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card-link:hover {
+    transform: translateY(-10px);
+}
+
+.card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  padding: 30px;
+  text-align: center;
+  color: #fff;
+}
+
+.card-icon i {
+  font-size: 4em;
+  margin-bottom: 20px;
+  color: #fff;
+}
+
+.card-title {
+  margin: 0;
+  font-size: 1.8em;
+  font-weight: 600;
+}
+
+.card-description {
+  margin: 10px 0 0;
+  font-size: 1em;
+  color: rgba(255, 255, 255, 0.8);
+}
+
+.no-data-card {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-radius: 15px;
+  padding: 40px;
+  text-align: center;
+  max-width: 600px;
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+.no-data-card h2 {
+  color: #ff6b6b;
+  font-size: 1.8em;
+}

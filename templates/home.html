@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Pilih Pendaki</title>
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/home_style.css') }}"
+    />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+  </head>
+  <body>
+    <header class="header">
+      <div class="logo">
+        <i class="fas fa-shield-alt"></i>
+        <h1>Summit Safeguard</h1>
+      </div>
+      <p>Pilih Pendaki yang Ingin Anda Lacak</p>
+    </header>
+
+    <main class="container">
+      {% if pendaki_list %}
+      <div class="card-list">
+        {% for pendaki in pendaki_list %}
+        <a
+          href="{{ url_for('dashboard', id_pendaki=pendaki) }}"
+          class="card-link"
+        >
+          <div class="card">
+            <div class="card-icon"><i class="fas fa-user-circle"></i></div>
+            <h2 class="card-title">{{ pendaki }}</h2>
+            <p class="card-description">Lihat lokasi dan data real-time</p>
+          </div>
+        </a>
+        {% endfor %}
+      </div>
+      {% else %}
+      <div class="no-data-card">
+        <h2>Tidak Ada Pendaki Aktif</h2>
+        <p>
+          Saat ini tidak ada data yang diterima dari perangkat pendaki. Pastikan
+          perangkat Anda sudah aktif dan terhubung.
+        </p>
+      </div>
+      {% endif %}
+    </main>
+  </body>
+</html>

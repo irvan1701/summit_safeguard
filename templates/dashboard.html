@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard Pendaki - {{ selected_pendaki }}</title>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+</head>
+<body>
+    <div class="main-layout">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <i class="fas fa-shield-alt"></i>
+                <h3>Summit Safeguard</h3>
+            </div>
+            <nav class="sidebar-nav">
+                <ul>
+                    <li class="nav-item">
+                        <a href="/">
+                            <i class="fas fa-arrow-left"></i>
+                            <span>Kembali</span>
+                        </a>
+                    </li>
+                    <li class="nav-item active">
+                        <a href="#">
+                            <i class="fas fa-map-marker-alt"></i>
+                            <span>Lacak Pendaki</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/manage-users">
+                            <i class="fas fa-users-cog"></i>
+                            <span>Manage User</span>
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="/about">
+                            <i class="fas fa-info-circle"></i>
+                            <span>Tentang Kami</span>
+                        </a>
+                    </li>
+                    <li class="nav-item logout">
+                        <a href="/logout">
+                            <i class="fas fa-sign-out-alt"></i>
+                            <span>Logout</span>
+                        </a>
+                    </li>
+                </ul>
+            </nav>
+        </aside>
+
+        <main class="content">
+            <header class="header">
+                <h1>Dashboard Pendaki</h1>
+                <p>Melacak Perjalanan: <strong>{{ selected_pendaki }}</strong></p>
+            </header>
+
+            <div class="container">
+                <div class="card map-card">
+                    <div id="map"></div>
+                </div>
+
+                <div class="card data-card">
+                    <h2>Data Real-time</h2>
+                    <div id="data-container">
+                        <div class="data-item">
+                            <span class="label"><i class="fas fa-satellite-dish"></i> Status:</span>
+                            <span id="status" class="value">Mencari data...</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="label"><i class="fas fa-thermometer-half"></i> Suhu:</span>
+                            <span id="suhu" class="value">--</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="label"><i class="fas fa-tint"></i> Kelembaban:</span>
+                            <span id="kelembaban" class="value">--</span>
+                        </div>
+                        <div class="data-item">
+                            <span class="label"><i class="far fa-clock"></i> Waktu:</span>
+                            <span id="waktu" class="value">--</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+    <script>
+        var map = L.map('map').setView([-6.2146, 106.8451], 13);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+
+        var markers = {};
+        var pendakiId = "{{ selected_pendaki }}";
+
+        function updateDashboard() {
+            fetch('/api/data/' + pendakiId)
+                .then(response => response.json())
+                .then(data => {
+                    const dataContainer = document.getElementById('data-container');
+                    const statusEl = document.getElementById('status');
+                    const suhuEl = document.getElementById('suhu');
+                    const kelembabanEl = document.getElementById('kelembaban');
+                    const waktuEl = document.getElementById('waktu');
+
+                    if (data.length > 0) {
+                        const latestData = data[0];
+                        statusEl.textContent = "Data diterima";
+                        suhuEl.textContent = `${latestData.suhu}°C`;
+                        kelembabanEl.textContent = `${latestData.kelembaban}%`;
+                        const date = new Date(latestData.timestamp);
+                        waktuEl.textContent = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+
+                        if (markers[latestData.id_pendaki]) {
+                            markers[latestData.id_pendaki].setLatLng([latestData.latitude, latestData.longitude]);
+                        } else {
+                            var newMarker = L.marker([latestData.latitude, latestData.longitude]).addTo(map)
+                                .bindPopup(`<b>${latestData.id_pendaki}</b><br>Suhu: ${latestData.suhu}°C<br>Kelembaban: ${latestData.kelembaban}%`);
+                            markers[latestData.id_pendaki] = newMarker;
+                        }
+                        
+                    } else {
+                        statusEl.textContent = "Menunggu data...";
+                    }
+                })
+                .catch(error => console.error('Error fetching data:', error));
+        }
+
+        setInterval(updateDashboard, 5000);
+        updateDashboard();
+    </script>
+</body>
+</html>
