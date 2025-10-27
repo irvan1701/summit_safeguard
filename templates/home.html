@@ -1,89 +1,44 @@
-<!DOCTYPE html>
-<html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Pilih Pendaki</title>
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/home_style.css') }}"
-    />
-    <link
-      href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap"
-      rel="stylesheet"
-    />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-  </head>
-  <body>
-    <div class="main-layout">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Summit Safeguard</h3>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="nav-item active">
-                        <a href="/">
-                            <i class="fas fa-home"></i>
-                            <span>Home</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/manage-users">
-                            <i class="fas fa-users-cog"></i>
-                            <span>Manage User</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/about">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Tentang Kami</span>
-                        </a>
-                    </li>
-                    <li class="nav-item logout">
-                        <a href="/logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+{% extends "base.html" %}
 
-        <main class="content">
-            <header class="header">
-              <h1>Pilih Pendaki</h1>
-              <p>Pilih Pendaki yang Ingin Anda Lacak</p>
-            </header>
+{% block title %}Pilih Pendaki - Summit Safeguard{% endblock %}
 
-            <div class="container">
-              {% if pendaki_list %}
-              <div class="card-list">
-                {% for pendaki in pendaki_list %}
-                <a
-                  href="{{ url_for('dashboard', id_pendaki=pendaki) }}"
-                  class="card-link"
-                >
-                  <div class="card">
-                    <div class="card-icon"><i class="fas fa-user-circle"></i></div>
-                    <h2 class="card-title">{{ pendaki }}</h2>
-                    <p class="card-description">Lihat lokasi dan data real-time</p>
-                  </div>
-                </a>
-                {% endfor %}
-              </div>
-              {% else %}
-              <div class="no-data-card">
-                <h2>Tidak Ada Pendaki Aktif</h2>
-                <p>
-                  Saat ini tidak ada data yang diterima dari perangkat pendaki. Pastikan
-                  perangkat Anda sudah aktif dan terhubung.
-                </p>
-              </div>
-              {% endif %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/home_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<header class="header">
+    <h1>Selamat Datang, {{ current_user.username }}!</h1>
+    <p>Pilih pendaki yang ingin Anda pantau dari daftar di bawah ini.</p>
+</header>
+
+<div class="container">
+    {% if pendaki_list %}
+    <div class="card-grid">
+        {% for pendaki in pendaki_list %}
+        <div class="pendaki-card">
+            <div class="card-header">
+                <div class="status-badge">Aktif</div>
             </div>
-        </main>
+            <div class="card-body">
+                <i class="fas fa-hiking card-icon"></i>
+                <h2 class="card-title">ID Pendaki: {{ pendaki }}</h2>
+                <p class="card-description">Data telemetri diterima.</p>
+            </div>
+            <div class="card-footer">
+                <a href="{{ url_for('dashboard', id_pendaki=pendaki) }}" class="btn-track">Lacak Sekarang <i class="fas fa-arrow-right"></i></a>
+            </div>
+        </div>
+        {% endfor %}
     </div>
-  </body>
-</html>
+    {% else %}
+    <div class="no-data-card">
+        <i class="fas fa-cloud-moon no-data-icon"></i>
+        <h2>Belum Ada Pendaki Aktif</h2>
+        <p>
+            Sistem sedang menunggu sinyal dari perangkat pendaki. Halaman ini akan diperbarui secara otomatis.
+        </p>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

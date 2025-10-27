@@ -1,169 +1,139 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Pendaki - {{ selected_pendaki }}</title>
+{% extends "base.html" %}
+
+{% block title %}Dashboard Pendaki - {{ selected_pendaki }}{% endblock %}
+
+{% block head %}
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.7.1/dist/leaflet.css" />
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
-</head>
-<body>
-    <div class="main-layout">
-        <aside class="sidebar">
-            <div class="sidebar-header">
-                <i class="fas fa-shield-alt"></i>
-                <h3>Summit Safeguard</h3>
-            </div>
-            <nav class="sidebar-nav">
-                <ul>
-                    <li class="nav-item">
-                        <a href="/">
-                            <i class="fas fa-arrow-left"></i>
-                            <span>Kembali</span>
-                        </a>
-                    </li>
-                    <li class="nav-item active">
-                        <a href="#">
-                            <i class="fas fa-map-marker-alt"></i>
-                            <span>Lacak Pendaki</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/manage-users">
-                            <i class="fas fa-users-cog"></i>
-                            <span>Manage User</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a href="/about">
-                            <i class="fas fa-info-circle"></i>
-                            <span>Tentang Kami</span>
-                        </a>
-                    </li>
-                    <li class="nav-item logout">
-                        <a href="/logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </a>
-                    </li>
-                </ul>
-            </nav>
-        </aside>
+{% endblock %}
 
-        <main class="content">
-            <header class="header">
-                <h1>Dashboard Pendaki</h1>
-                <p>Melacak Perjalanan: <strong>{{ selected_pendaki }}</strong></p>
-            </header>
+{% block content %}
+<header class="header">
+    <h1>Dashboard Pendaki</h1>
+    <p>Melacak Perjalanan: <strong>{{ selected_pendaki }}</strong></p>
+</header>
 
-            <div class="container">
-                <div class="card map-card">
-                    <div id="map"></div>
-                </div>
-
-                <div class="data-grid">
-                    <div class="info-card" id="status-card">
-                        <div class="card-icon"><i class="fas fa-satellite-dish"></i></div>
-                        <div class="card-content">
-                            <span class="label">Status</span>
-                            <span id="status" class="value">Mencari data...</span>
-                        </div>
-                    </div>
-                    <div class="info-card" id="suhu-card">
-                        <div class="card-icon"><i class="fas fa-thermometer-half"></i></div>
-                        <div class="card-content">
-                            <span class="label">Suhu</span>
-                            <span id="suhu" class="value">--</span>
-                        </div>
-                    </div>
-                    <div class="info-card" id="kelembaban-card">
-                        <div class="card-icon"><i class="fas fa-tint"></i></div>
-                        <div class="card-content">
-                            <span class="label">Kelembaban</span>
-                            <span id="kelembaban" class="value">--</span>
-                        </div>
-                    </div>
-                    <div class="info-card" id="waktu-card">
-                        <div class="card-icon"><i class="far fa-clock"></i></div>
-                        <div class="card-content">
-                            <span class="label">Waktu</span>
-                            <span id="waktu" class="value">--</span>
-                        </div>
-                    </div>
-                    <div class="info-card" id="sos-card">
-                        <div class="card-icon"><i class="fas fa-exclamation-triangle"></i></div>
-                        <div class="card-content">
-                            <span class="label">SOS</span>
-                            <span id="sos" class="value">--</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </main>
+<div class="container">
+    <div class="card map-card">
+        <div id="map"></div>
     </div>
 
-    <script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
-    <script>
-        var map = L.map('map').setView([-6.2146, 106.8451], 13);
-        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png').addTo(map);
+    <div class="data-grid">
+        <div class="info-card" id="status-card">
+            <div class="card-icon"><i class="fas fa-satellite-dish"></i></div>
+            <div class="card-content">
+                <span class="label">Status</span>
+                <span id="status" class="value">Mencari data...</span>
+            </div>
+        </div>
+        <div class="info-card" id="suhu-card">
+            <div class="card-icon">
+                <i class="fas fa-thermometer-half"></i>
+            </div>
+            <div class="card-content">
+                <span class="label">Suhu</span>
+                <span id="suhu" class="value">--</span>
+            </div>
+        </div>
+        <div class="info-card" id="kelembaban-card">
+            <div class="card-icon"><i class="fas fa-tint"></i></div>
+            <div class="card-content">
+                <span class="label">Kelembaban</span>
+                <span id="kelembaban" class="value">--</span>
+            </div>
+        </div>
+        <div class="info-card" id="waktu-card">
+            <div class="card-icon"><i class="far fa-clock"></i></div>
+            <div class="card-content">
+                <span class="label">Waktu</span>
+                <span id="waktu" class="value">--</span>
+            </div>
+        </div>
+        <div class="info-card" id="sos-card">
+            <div class="card-icon">
+                <i class="fas fa-exclamation-triangle"></i>
+            </div>
+            <div class="card-content">
+                <span class="label">SOS</span>
+                <span id="sos" class="value">--</span>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
 
-        var markers = {};
-        var pendakiId = "{{ selected_pendaki }}";
-        var polyline = L.polyline([], {color: 'red'}).addTo(map);
-        var latlngs = [];
+{% block scripts %}
+<script src="https://unpkg.com/leaflet@1.7.1/dist/leaflet.js"></script>
+<script>
+    var map = L.map("map").setView([-6.2146, 106.8451], 13);
+    L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png").addTo(map);
 
-        function updateDashboard() {
-            fetch('/api/data/' + pendakiId)
-                .then(response => response.json())
-                .then(data => {
-                    const statusEl = document.getElementById('status');
-                    const suhuEl = document.getElementById('suhu');
-                    const kelembabanEl = document.getElementById('kelembaban');
-                    const waktuEl = document.getElementById('waktu');
-                    const sosEl = document.getElementById('sos');
-                    const sosCard = document.getElementById('sos-card');
+    var markers = {};
+    var pendakiId = "{{ selected_pendaki }}";
+    var polyline = L.polyline([], { color: "red" }).addTo(map);
+    var latlngs = [];
 
-                    if (data.length > 0) {
-                        const latestData = data[0];
-                        statusEl.textContent = "Data diterima";
-                        suhuEl.textContent = `${latestData.suhu}°C`;
-                        kelembabanEl.textContent = `${latestData.kelembaban}%`;
-                        const date = new Date(latestData.timestamp);
-                        waktuEl.textContent = date.toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' });
+    function updateDashboard() {
+        fetch("/api/data/" + pendakiId)
+            .then((response) => {
+                if (response.status === 403) {
+                    window.location.href = "{{ url_for('login') }}";
+                    return null;
+                }
+                return response.json();
+            })
+            .then((data) => {
+                if (!data) return;
 
-                        if (latestData.sos == 1) {
-                            sosEl.textContent = "AKTIF";
-                            sosCard.classList.add('blinking');
-                        } else {
-                            sosEl.textContent = "NON-AKTIF";
-                            sosCard.classList.remove('blinking');
-                        }
+                const statusEl = document.getElementById("status");
+                const suhuEl = document.getElementById("suhu");
+                const kelembabanEl = document.getElementById("kelembaban");
+                const waktuEl = document.getElementById("waktu");
+                const sosEl = document.getElementById("sos");
+                const sosCard = document.getElementById("sos-card");
 
-                        var latlng = [latestData.latitude, latestData.longitude];
-                        latlngs.push(latlng);
-                        polyline.setLatLngs(latlngs);
+                if (data.length > 0) {
+                    const latestData = data[0];
+                    statusEl.textContent = "Data diterima";
+                    suhuEl.textContent = `${latestData.suhu}°C`;
+                    kelembabanEl.textContent = `${latestData.kelembaban}%`;
+                    const date = new Date(latestData.timestamp);
+                    waktuEl.textContent = date.toLocaleTimeString("id-ID", {
+                        hour: "2-digit",
+                        minute: "2-digit",
+                    });
 
-                        if (markers[latestData.id_pendaki]) {
-                            markers[latestData.id_pendaki].setLatLng(latlng);
-                        } else {
-                            var newMarker = L.marker(latlng).addTo(map)
-                                .bindPopup(`<b>${latestData.id_pendaki}</b><br>Suhu: ${latestData.suhu}°C<br>Kelembaban: ${latestData.kelembaban}%`);
-                            markers[latestData.id_pendaki] = newMarker;
-                        }
-
-                        map.fitBounds(polyline.getBounds());
-                        
+                    if (latestData.sos == 1) {
+                        sosEl.textContent = "AKTIF";
+                        sosCard.classList.add("blinking");
                     } else {
-                        statusEl.textContent = "Menunggu data...";
+                        sosEl.textContent = "NON-AKTIF";
+                        sosCard.classList.remove("blinking");
                     }
-                })
-                .catch(error => console.error('Error fetching data:', error));
-        }
 
-        setInterval(updateDashboard, 5000);
-        updateDashboard();
-    </script>
-</body>
-</html>
+                    var latlng = [latestData.latitude, latestData.longitude];
+                    latlngs.push(latlng);
+                    polyline.setLatLngs(latlngs);
+
+                    if (markers[latestData.id_pendaki]) {
+                        markers[latestData.id_pendaki].setLatLng(latlng);
+                    } else {
+                        var newMarker = L.marker(latlng)
+                            .addTo(map)
+                            .bindPopup(
+                                `<b>${latestData.id_pendaki}</b><br>Suhu: ${latestData.suhu}°C<br>Kelembaban: ${latestData.kelembaban}%`
+                            );
+                        markers[latestData.id_pendaki] = newMarker;
+                    }
+
+                    map.fitBounds(polyline.getBounds());
+                } else {
+                    statusEl.textContent = "Menunggu data...";
+                }
+            })
+            .catch((error) => console.error("Error fetching data:", error));
+    }
+
+    setInterval(updateDashboard, 5000);
+    updateDashboard();
+</script>
+{% endblock %}

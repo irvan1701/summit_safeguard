@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}Edit User - Summit Safeguard{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage_users_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<header class="header">
+    <h1>Edit Pengguna: {{ user.username }}</h1>
+    <p>Perbarui informasi pengguna di bawah ini.</p>
+</header>
+
+<div class="container">
+    <div class="card form-card">
+        <form method="POST" action="{{ url_for('edit_user', id=user.id) }}">
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" value="{{ user.username }}" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password Baru (Opsional)</label>
+                    <input type="password" name="password" placeholder="Kosongkan jika tidak ingin diubah">
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="role">Role</label>
+                    <select name="role" id="role-select">
+                        <option value="viewer" {% if user.role == 'viewer' %}selected{% endif %}>Viewer (Keluarga)</option>
+                        <option value="penyelamat" {% if user.role == 'penyelamat' %}selected{% endif %}>Penyelamat</option>
+                    </select>
+                </div>
+                <div class="input-group" id="id-pendaki-group">
+                    <label for="id_pendaki_terkait">ID Pendaki Terkait</label>
+                    <input type="text" name="id_pendaki_terkait" value="{{ user.id_pendaki_terkait or '' }}">
+                </div>
+            </div>
+            <div class="form-actions">
+                <a href="{{ url_for('manage_users') }}" class="btn btn-secondary">Batal</a>
+                <button type="submit" class="btn btn-primary">Simpan Perubahan</button>
+            </div>
+        </form>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('role-select').addEventListener('change', function() {
+        var idPendakiGroup = document.getElementById('id-pendaki-group');
+        if (this.value === 'viewer') {
+            idPendakiGroup.style.display = 'block';
+        } else {
+            idPendakiGroup.style.display = 'none';
+        }
+    });
+    // Trigger change on page load
+    document.getElementById('role-select').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}

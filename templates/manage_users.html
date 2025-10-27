@@ -1,0 +1,94 @@
+{% extends "base.html" %}
+
+{% block title %}Manage Users - Summit Safeguard{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/manage_users_style.css') }}">
+{% endblock %}
+
+{% block content %}
+<header class="header">
+    <h1>Manajemen Pengguna</h1>
+    <p>Tambah, edit, atau hapus akun pengguna sistem.</p>
+</header>
+
+<div class="container">
+    <div class="card form-card">
+        <h2>Tambah Pengguna Baru</h2>
+        <form method="POST" action="{{ url_for('manage_users') }}">
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="username">Username</label>
+                    <input type="text" name="username" required>
+                </div>
+                <div class="input-group">
+                    <label for="password">Password</label>
+                    <input type="password" name="password" required>
+                </div>
+            </div>
+            <div class="form-row">
+                <div class="input-group">
+                    <label for="role">Role</label>
+                    <select name="role" id="role-select">
+                        <option value="viewer">Viewer (Keluarga)</option>
+                        <option value="penyelamat">Penyelamat</option>
+                    </select>
+                </div>
+                <div class="input-group" id="id-pendaki-group">
+                    <label for="id_pendaki_terkait">ID Pendaki Terkait</label>
+                    <input type="text" name="id_pendaki_terkait">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary">Tambah User</button>
+        </form>
+    </div>
+
+    <div class="card user-list-card">
+        <h2>Daftar Pengguna</h2>
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>ID Pendaki Terkait</th>
+                        <th>Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for user in users %}
+                    <tr>
+                        <td>{{ user.username }}</td>
+                        <td><span class="role-badge role-{{ user.role }}">{{ user.role }}</span></td>
+                        <td>{{ user.id_pendaki_terkait if user.id_pendaki_terkait else '-' }}</td>
+                        <td class="actions">
+                            <a href="{{ url_for('edit_user', id=user.id) }}" class="btn btn-secondary">Edit</a>
+                            {% if user.id != current_user.id %}
+                            <form method="POST" action="{{ url_for('delete_user', id=user.id) }}" onsubmit="return confirm('Apakah Anda yakin ingin menghapus user ini?');">
+                                <button type="submit" class="btn btn-danger">Hapus</button>
+                            </form>
+                            {% endif %}
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+    document.getElementById('role-select').addEventListener('change', function() {
+        var idPendakiGroup = document.getElementById('id-pendaki-group');
+        if (this.value === 'viewer') {
+            idPendakiGroup.style.display = 'block';
+        } else {
+            idPendakiGroup.style.display = 'none';
+        }
+    });
+    // Trigger change on page load
+    document.getElementById('role-select').dispatchEvent(new Event('change'));
+</script>
+{% endblock %}

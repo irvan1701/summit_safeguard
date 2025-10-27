@@ -1,0 +1,369 @@
+/* about_style.css */
+
+:root {
+  --primary-color: #3498db;
+  --secondary-color: #2c3e50;
+  --background-light: #f4f7f6;
+  --card-bg: #ffffff;
+  --text-dark: #333;
+  --text-light: #7f8c8d;
+  --shadow: 0 10px 30px rgba(0, 0, 0, 0.07);
+  --border-radius-lg: 15px;
+}
+
+/* Utilitas Container untuk membatasi lebar konten */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: block; /* Pastikan container tidak bertindak sebagai flex/grid parent yang mengganggu centering */
+}
+
+/* Konten Utama */
+.content {
+  padding: 0;
+  flex-grow: 1;
+}
+
+/* --- About Hero Section --- */
+.about-hero {
+  background: linear-gradient(rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 0.6)),
+    url("https://images.unsplash.com/photo-1551632811-561732d1e306?q=80&w=2070&auto=format&fit=crop")
+      no-repeat center center;
+  background-size: cover;
+  color: white;
+  padding: 100px 40px;
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 50vh;
+  border-radius: 0 0 var(--border-radius-lg) var(--border-radius-lg);
+  overflow: hidden;
+}
+
+.hero-text h1 {
+  font-size: 3.5rem;
+  font-weight: 700;
+  margin-bottom: 15px;
+  text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.hero-text p {
+  font-size: 1.3rem;
+  font-weight: 300;
+  max-width: 700px;
+  margin: 0 auto;
+  opacity: 0.9;
+}
+
+/* --- Card Header Konsisten (Digunakan untuk Judul Misi dan Cara Kerja) --- */
+.card-about-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* Centering horizontal untuk konten flex item */
+  margin-bottom: 40px;
+  padding-top: 20px;
+  text-align: center; /* Centering teks di dalam header */
+  max-width: 900px;
+  margin-left: auto;
+  margin-right: auto; /* Centering block element card-about-header */
+}
+
+.card-about-header i {
+  font-size: 3rem;
+  color: var(--primary-color);
+  margin-bottom: 15px;
+  padding: 0;
+}
+
+.card-about-header h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: 0;
+  position: relative;
+  text-align: center;
+}
+
+.card-about-header h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 10px auto 0; /* Centering garis bawah */
+  border-radius: 2px;
+}
+
+/* --- Mission Section --- */
+.mission-section {
+  background-color: var(--background-light);
+  padding: 80px 0;
+}
+
+.mission-section p {
+  max-width: 900px;
+  margin: 0 auto;
+  color: var(--text-dark);
+  font-size: 1.1rem;
+  line-height: 1.9;
+  text-align: center;
+  font-style: italic;
+}
+
+/* --- How It Works Section --- */
+.how-it-works-section {
+  padding: 80px 0;
+  background-color: var(--card-bg);
+}
+
+.how-it-works {
+  /* Layout 2x2 untuk desktop */
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 30px;
+  margin-top: 40px;
+  max-width: 1000px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.step {
+  text-align: center;
+  padding: 20px;
+  border-radius: var(--border-radius-lg);
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+/* Pengaturan Panah untuk Layout 2x2 */
+.step:not(:last-child)::after {
+  content: none !important; /* Hilangkan panah default */
+}
+
+.how-it-works .step:nth-child(1)::after,
+.how-it-works .step:nth-child(3)::after {
+  content: "\2192"; /* Tambahkan panah ke kanan */
+  position: absolute;
+  top: 30%;
+  right: -15px;
+  transform: translateY(-50%);
+  font-size: 2rem;
+  color: var(--primary-color);
+  z-index: 10;
+  font-weight: 300;
+  opacity: 0.5;
+}
+
+.how-it-works .step:nth-child(2)::after,
+.how-it-works .step:nth-child(4)::after {
+  content: none !important;
+}
+
+.step-icon {
+  width: 90px;
+  height: 90px;
+  background-color: var(--primary-color);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 20px auto;
+  box-shadow: 0 5px 15px rgba(52, 152, 219, 0.4);
+}
+
+.step-icon i {
+  font-size: 3rem;
+  color: var(--card-bg);
+}
+
+.step h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin-bottom: 10px;
+}
+
+.step p {
+  color: var(--text-light);
+}
+
+/* --- Team Section --- */
+.team-section {
+  padding: 80px 0;
+  background-color: var(--background-light);
+}
+
+/* Style untuk Judul Tim yang Sentral */
+.team-title-container {
+  text-align: center;
+  margin-bottom: 50px; /* Jarak antara judul dan grid tim */
+}
+
+.team-title-container h2 {
+  font-size: 2.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+  margin: 0;
+}
+
+.team-title-container h2::after {
+  content: "";
+  display: block;
+  width: 60px;
+  height: 4px;
+  background-color: var(--primary-color);
+  margin: 10px auto 0; /* Centering garis bawah */
+  border-radius: 2px;
+}
+
+.team-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-light);
+  margin-top: 10px;
+  margin-bottom: 0;
+  text-align: center;
+  font-weight: 400;
+}
+
+.team-members-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+}
+
+.team-member-card {
+  background-color: var(--card-bg);
+  border-radius: var(--border-radius-lg);
+  overflow: hidden;
+  box-shadow: var(--shadow);
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+  text-align: center;
+}
+
+.team-member-card:hover {
+  transform: translateY(-10px) rotate(1deg);
+  box-shadow: 0 25px 50px rgba(0, 0, 0, 0.15);
+}
+
+.team-member-img {
+  width: 100%;
+  padding-top: 100%;
+  background-size: cover;
+  background-position: center;
+  clip-path: polygon(0 0, 100% 0, 100% 85%, 50% 100%, 0 85%);
+  transition: clip-path 0.4s ease;
+}
+.team-member-card:hover .team-member-img {
+  clip-path: polygon(0 0, 100% 0, 100% 95%, 0 95%);
+}
+
+.team-member-info {
+  padding: 25px;
+  margin-top: -15px;
+}
+
+.team-member-info h3 {
+  margin: 0 0 5px 0;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--secondary-color);
+}
+
+.team-member-info span {
+  color: var(--primary-color);
+  font-weight: 500;
+  font-size: 1rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.social-links {
+  margin-top: 15px;
+  padding-top: 15px;
+  border-top: 1px solid #eee;
+}
+
+.social-links a {
+  color: var(--text-light);
+  font-size: 1.3rem;
+  margin: 0 12px;
+  transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.social-links a:hover {
+  color: var(--primary-color);
+  transform: translateY(-2px);
+}
+
+/* --- Footer --- */
+.page-footer {
+  background-color: var(--secondary-color);
+  color: var(--background-light);
+  padding: 30px 0;
+  text-align: center;
+  font-size: 0.9rem;
+}
+
+.page-footer p {
+  margin: 0;
+}
+
+/* --- Responsive --- */
+@media (max-width: 992px) {
+  .hero-text h1 {
+    font-size: 3rem;
+  }
+  .hero-text p {
+    font-size: 1.1rem;
+  }
+  .card-about-header h2,
+  .team-title-container h2 {
+    font-size: 2rem;
+  }
+  .team-members-grid {
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .about-hero {
+    padding: 60px 20px;
+    min-height: 40vh;
+  }
+  .hero-text h1 {
+    font-size: 2.5rem;
+  }
+  .hero-text p {
+    font-size: 1rem;
+  }
+  .mission-section,
+  .how-it-works-section,
+  .team-section {
+    padding: 60px 0;
+  }
+  .how-it-works {
+    /* Satu kolom di mobile */
+    grid-template-columns: 1fr;
+  }
+  .step-icon {
+    width: 70px;
+    height: 70px;
+  }
+  .step-icon i {
+    font-size: 2.5rem;
+  }
+  .team-members-grid {
+    /* Satu kolom di mobile */
+    grid-template-columns: 1fr;
+    max-width: 350px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  /* Hilangkan semua panah di mobile */
+  .how-it-works .step:nth-child(1)::after,
+  .how-it-works .step:nth-child(3)::after {
+    content: none !important;
+  }
+}

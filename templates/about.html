@@ -1,0 +1,142 @@
+{% extends "base.html" %}
+
+{% block title %}Tentang Kami - Summit Safeguard{% endblock %}
+
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/about_style.css') }}">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700;800&display=swap" rel="stylesheet">
+{% endblock %}
+
+{% block content %}
+<header class="about-hero">
+    <div class="hero-text">
+        <h1>Inovasi Untuk Keselamatan</h1>
+        <p>
+            Memperkenalkan Summit Safeguard, proyek yang lahir dari semangat
+            untuk melindungi para petualang di alam bebas dengan teknologi
+            terdepan.
+        </p>
+    </div>
+</header>
+
+<section class="mission-section">
+    <div class="container">
+        <div class="card-about-header">
+            <i class="fas fa-rocket"></i>
+            <h2>Misi Kami</h2>
+        </div>
+        <p>
+            "Misi kami adalah menyediakan solusi teknologi yang andal dan
+            terjangkau untuk meningkatkan keselamatan pendaki gunung. Kami
+            percaya bahwa setiap petualangan harus diakhiri dengan cerita yang
+            indah, bukan tragedi. Summit Safeguard hadir untuk menjadi jaring
+            pengaman di alam bebas."
+        </p>
+    </div>
+</section>
+
+<hr />
+
+<section class="how-it-works-section">
+    <div class="container">
+        <div class="card-about-header">
+            <i class="fas fa-cogs"></i>
+            <h2>Bagaimana Cara Kerjanya?</h2>
+        </div>
+
+        <div class="how-it-works">
+            <div class="step">
+                <div class="step-icon">
+                    <i class="fas fa-satellite-dish"></i>
+                </div>
+                <h3>1. Sinyal Darurat</h3>
+                <p>
+                    Pendaki menekan tombol SOS pada perangkat khusus yang kami
+                    rancang untuk mengaktifkan peringatan.
+                </p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-wave-square"></i></div>
+                <h3>2. Transmisi LoRa</h3>
+                <p>
+                    Sinyal SOS beserta data lokasi (GPS) dikirimkan melalui
+                    jaringan **LoRa** yang memiliki jangkauan luas dan efisien
+                    energi.
+                </p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-server"></i></div>
+                <h3>3. Diterima Server</h3>
+                <p>
+                    Sinyal diterima oleh gateway terdekat dan diteruskan ke
+                    **server pusat** kami untuk diproses secara real-time.
+                </p>
+            </div>
+            <div class="step">
+                <div class="step-icon"><i class="fas fa-desktop"></i></div>
+                <h3>4. Visualisasi Data</h3>
+                <p>
+                    Tim penyelamat memantau lokasi, status, dan riwayat pergerakan
+                    pendaki melalui **dashboard interaktif** ini.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<hr />
+
+<section class="team-section">
+    <div class="container">
+        <div class="team-title-container">
+            <h2>Tim Inovator</h2>
+            <p class="team-subtitle">
+                Dari siswa untuk keselamatan bangsa, sebuah proyek persembahan
+                dari <b>SMA Negeri 6 Jakarta<b>.
+            </p>
+        </div>
+
+        <div class="team-members-grid">
+            <div class="team-member-card">
+                <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/300?u=ahmad');"></div>
+                <div class="team-member-info">
+                    <h3>Arula Aswangga Azhar</h3>
+                    <span>Ketua</span>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member-card">
+                <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/300?u=budi');"></div>
+                <div class="team-member-info">
+                    <h3>Muhammad Alif Saputra</h3>
+                    <span>Anggota</span>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                    </div>
+                </div>
+            </div>
+            <div class="team-member-card">
+                <div class="team-member-img" style="background-image: url('https://i.pravatar.cc/300?u=indah');"></div>
+                <div class="team-member-info">
+                    <h3>pestaindra sigalingging</h3>
+                    <span>Pembimbing</span>
+                    <div class="social-links">
+                        <a href="#" aria-label="LinkedIn"><i class="fab fa-linkedin"></i></a>
+                        <a href="#" aria-label="Google Scholar"><i class="fab fa-google"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<footer class="page-footer">
+    <div class="container">
+        <p>&copy; 2025 Summit Safeguard. Dibuat dengan semangat Inovasi.</p>
+    </div>
+</footer>
+{% endblock %}
